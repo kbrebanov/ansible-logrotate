@@ -1,2 +1,7 @@
 ---
 # defaults file for logrotate
+
+logrotate_interval: weekly
+logrotate_rotate: 4
+logrotate_create: true
+logrotate_compress: false
