@@ -1,2 +1,41 @@
 ---
 # tasks file for logrotate
+
+- name: Include distribution specific variables
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags: logrotate
+
+- include: CentOS.yml
+  when: ansible_distribution == "CentOS"
+  tags: logrotate
+
+- include: Ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+  tags: logrotate
+
+- name: Create logrotate configuration directory
+  file: >
+    path=/etc/logrotate.d
+    owner=root
+    group=root
+    mode=0755
+    state=directory
+  tags: logrotate
+
+- name: Create logrotate configuration file
+  template: >
+    src=logrotate.conf.j2
+    dest=/etc/logrotate.conf
+    owner=root
+    group=root
+    mode=0644
+  tags: logrotate
+
+- name: Create logrotate cron job
+  template: >
+    src=logrotate.cron.j2
+    dest=/etc/cron.daily/logrotate
+    owner=root
+    group=root
+    mode=0755
+  tags: logrotate
