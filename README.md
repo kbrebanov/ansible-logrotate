@@ -1,6 +1,8 @@
 logrotate
 =========
 
+[![Ansible Role](https://img.shields.io/ansible/role/5887.svg)](https://galaxy.ansible.com/list#/roles/5887)
+
 Installs and configures logrotate
 
 Requirements
