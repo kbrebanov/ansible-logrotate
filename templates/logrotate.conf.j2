@@ -1,46 +1,24 @@
 # {{ ansible_managed }}
 
 # see "man logrotate" for details
-# rotate log files weekly
-{{ logrotate_interval }}
-
-# use the syslog group by default, since this is the owning group
-# of /var/log/syslog.
-su {{ logrotate_su_user }} {{ logrotate_su_group }}
-
-# keep 4 weeks worth of backlogs
-rotate {{ logrotate_rotate }}
-
-# create new (empty) log files after rotating old ones
-{% if logrotate_create %}
-create
-{% else %}
-nocreate
-{% endif %}
-
-# log files compression
-{% if logrotate_compress %}
-compress
-{% else %}
-nocompress
-{% endif %}
+{% for option in logrotate_options %}
+{{ option }}
+{% endfor %}
 
 # packages drop log rotation information into this directory
 include {{ logrotate_include_dir }}
 
 # no packages own wtmp, or btmp -- we'll rotate them here
-/var/log/wtmp {
-    missingok
-    monthly
-    create 0664 root utmp
-    rotate 1
+{{ logrotate_wtmp.logs | join(" ") }} {
+{% for option in logrotate_wtmp.options %}
+    {{ option }}
+{% endfor %}
 }
 
-/var/log/btmp {
-    missingok
-    monthly
-    create 0660 root utmp
-    rotate 1
+{{ logrotate_btmp.logs | join(" ") }} {
+{% for option in logrotate_btmp.options %}
+    {{ option }}
+{% endfor %}
 }
 
 # system-specific logs may be configured here

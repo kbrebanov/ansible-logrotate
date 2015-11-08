@@ -15,7 +15,7 @@
 
 - name: Create logrotate configuration directory
   file: >
-    path=/etc/logrotate.d
+    path={{ logrotate_include_dir }}
     owner=root
     group=root
     mode=0755
@@ -31,11 +31,12 @@
     mode=0644
   tags: logrotate
 
-- name: Create logrotate cron job
+- name: Create logrotate application configuration files
   template: >
-    src=logrotate.cron.j2
-    dest=/etc/cron.daily/logrotate
+    src=application.j2
+    dest={{ logrotate_include_dir }}/{{ item.name }}
     owner=root
     group=root
-    mode=0755
+    mode=0644
+  with_items: logrotate_applications
   tags: logrotate

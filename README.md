@@ -11,16 +11,13 @@ This role requires Ansible 1.4 or higher.
 Role Variables
 --------------
 
-<<<<<<< HEAD
-| Name               | Default | Description                                                          |
-|--------------------|---------|----------------------------------------------------------------------|
-| logrotate_interval | weekly  | Interval of log rotation (daily, weekly, monthly or yearly)          |
-| logrotate_rotate   | 4       | Number of times log files are rotated before being removed or mailed |
-| logrotate_create   | true    | Create new log files after rotation                                  |
-| logrotate_compress | false   | Compress log files after rotation                                    |
-=======
-None
->>>>>>> 19ea373d0b5a3ed3661eefd09460700adb0bf86b
+| Name                   | Default                                                                                               | Description                              |
+|------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------|
+| logrotate_options      | [ 'weekly', 'su root syslog', 'rotate 4', 'create' ]                                                  | List of default options                  |
+| logrotate_wtmp         | { logs: ['/var/log/wtmp'], options: ['missingok', 'monthly', 'create 0664 root utmp', 'rotate 1'] }   | Logrotate options for wtmp               |
+| logrotate_btmp         | { logs: ['/var/log/btmp'], options: ['missingok', 'monthly', 'create 0660 root utmp', 'rotate 1'] }   | Logrotate options for btmp               |
+| logrotate_applications | []                                                                                                    | Logrotate options for other applications |
+
 
 Dependencies
 ------------
@@ -36,18 +33,56 @@ Install logrotate
   roles:
     - kbrebanov.logrotate
 ```
-<<<<<<< HEAD
 
-Install logrotate and compress log files
+Install logrotate and configure rotation for ufw
 ```
 - hosts: all
   vars:
-    logrotate_compress: true
+    logrotate_applications:
+      - name: ufw
+        definitions:
+          - logs:
+              - /var/log/ufw.log
+            options:
+              - rotate 4
+              - weekly
+              - missingok
+              - notifempty
+              - compress
+              - delaycompress
+              - sharedscripts
+            postrotate:
+              - invoke-rc.d rsyslog reload >/dev/null 2>&1 || true
   roles:
     - kbrebanov.logrotate
 ```
-=======
->>>>>>> 19ea373d0b5a3ed3661eefd09460700adb0bf86b
+
+Install logrotate and configure rotation for apt
+```
+- hosts: all
+  vars:
+    logrotate_applications:
+      - name: apt
+        definitions:
+          - logs:
+              - /var/log/apt/term.log
+            options:
+              - rotate 12
+              - monthly
+              - compress
+              - missingok
+              - notifempty
+          - logs:
+              - /var/log/apt/history.log
+            options:
+              - rotate 12
+              - monthly
+              - compress
+              - missingok
+              - notifempty
+  roles:
+    - kbrebanov.logrotate
+```
 
 License
 -------
