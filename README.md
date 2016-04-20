@@ -1,7 +1,7 @@
 logrotate
 =========
 
-[![Ansible Role](https://img.shields.io/ansible/role/5887.svg)](https://galaxy.ansible.com/list#/roles/5887)
+[![Build Status](https://travis-ci.org/kbrebanov/ansible-logrotate.svg?branch=master)](https://travis-ci.org/kbrebanov/ansible-logrotate)
 
 Installs and configures logrotate
 
