@@ -3,40 +3,50 @@
 
 - name: Include distribution specific variables
   include_vars: "{{ ansible_distribution }}.yml"
-  tags: logrotate
+  tags:
+    - logrotate
 
 - include: CentOS.yml
   when: ansible_distribution == "CentOS"
-  tags: logrotate
+  tags:
+    - logrotate
 
 - include: Ubuntu.yml
   when: ansible_distribution == "Ubuntu"
-  tags: logrotate
+  tags:
+    - logrotate
 
 - name: Create logrotate configuration directory
-  file: >
-    path={{ logrotate_include_dir }}
-    owner=root
-    group=root
-    mode=0755
-    state=directory
-  tags: logrotate
+  become: yes
+  file:
+    path: "{{ logrotate_include_dir }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  tags:
+    - logrotate
 
 - name: Create logrotate configuration file
-  template: >
-    src=logrotate.conf.j2
-    dest=/etc/logrotate.conf
-    owner=root
-    group=root
-    mode=0644
-  tags: logrotate
+  become: yes
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - logrotate
 
 - name: Create logrotate application configuration files
-  template: >
-    src=application.j2
-    dest={{ logrotate_include_dir }}/{{ item.name }}
-    owner=root
-    group=root
-    mode=0644
-  with_items: logrotate_applications
-  tags: logrotate
+  become: yes
+  template:
+    src: application.j2
+    dest: "{{ logrotate_include_dir }}/{{ item.name }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ logrotate_applications }}"
+  tags:
+    - logrotate

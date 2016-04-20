@@ -2,6 +2,12 @@
 # tasks file for logrotate (Ubuntu specific)
 
 - name: Install logrotate packages
-  apt: name={{ item }} state=present update_cache=yes
-  with_items: logrotate_packages
-  tags: logrotate
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ logrotate_packages }}"
+  tags:
+    - logrotate
