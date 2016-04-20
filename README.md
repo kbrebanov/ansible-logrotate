@@ -30,14 +30,14 @@ Example Playbook
 ----------------
 
 Install logrotate
-```
+```yaml
 - hosts: all
   roles:
     - kbrebanov.logrotate
 ```
 
 Install logrotate and configure rotation for ufw
-```
+```yaml
 - hosts: all
   vars:
     logrotate_applications:
@@ -60,7 +60,7 @@ Install logrotate and configure rotation for ufw
 ```
 
 Install logrotate and configure rotation for apt
-```
+```yaml
 - hosts: all
   vars:
     logrotate_applications:
