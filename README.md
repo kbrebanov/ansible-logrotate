@@ -8,17 +8,17 @@ Installs and configures logrotate
 Requirements
 ------------
 
-This role requires Ansible 1.4 or higher.
+This role requires Ansible 1.9 or higher.
 
 Role Variables
 --------------
 
-| Name                   | Default                                                                                               | Description                              |
-|------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------|
-| logrotate_options      | [ 'weekly', 'su root syslog', 'rotate 4', 'create' ]                                                  | List of default options                  |
-| logrotate_wtmp         | { logs: ['/var/log/wtmp'], options: ['missingok', 'monthly', 'create 0664 root utmp', 'rotate 1'] }   | Logrotate options for wtmp               |
-| logrotate_btmp         | { logs: ['/var/log/btmp'], options: ['missingok', 'monthly', 'create 0660 root utmp', 'rotate 1'] }   | Logrotate options for btmp               |
-| logrotate_applications | []                                                                                                    | Logrotate options for other applications |
+| Name                   | Default                                                                                             | Description                              |
+|:-----------------------|:----------------------------------------------------------------------------------------------------|:-----------------------------------------|
+| logrotate_options      | [ 'weekly', 'su root syslog', 'rotate 4', 'create' ]                                                | List of default options                  |
+| logrotate_wtmp         | { logs: ['/var/log/wtmp'], options: ['missingok', 'monthly', 'create 0664 root utmp', 'rotate 1'] } | Logrotate options for wtmp               |
+| logrotate_btmp         | { logs: ['/var/log/btmp'], options: ['missingok', 'monthly', 'create 0660 root utmp', 'rotate 1'] } | Logrotate options for btmp               |
+| logrotate_applications | []                                                                                                  | Logrotate options for other applications |
 
 
 Dependencies
