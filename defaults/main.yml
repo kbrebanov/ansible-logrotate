@@ -1,6 +1,8 @@
 ---
 # defaults file for logrotate
 
+yumrepo_changed: false
+
 logrotate_options:
   - weekly
   - su root syslog

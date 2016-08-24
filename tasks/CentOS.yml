@@ -1,2 +1,16 @@
 ---
 # tasks file for logrotate (CentOS specific)
+
+- name: refresh cache
+  yum: name=* update_cache=yes
+  when: yumrepo_changed
+
+- name: Install logrotate packages
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ logrotate_packages }}"
+  tags:
+    - logrotate

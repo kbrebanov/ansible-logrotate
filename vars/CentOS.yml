@@ -1,2 +1,8 @@
 ---
 # vars file for logrotate (CentOS specific)
+
+logrotate_packages:
+  - logrotate
+logrotate_su_user: root
+logrotate_su_group: syslog
+logrotate_include_dir: /etc/logrotate.d
